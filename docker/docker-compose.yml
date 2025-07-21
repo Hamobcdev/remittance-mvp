@@ -31,29 +31,14 @@ services:
     volumes:
       - australia_data:/root/.lnd
       - ./entrypoint.sh:/entrypoint.sh
+      - ./lnd-config/australia-lnd.conf:/root/.lnd/lnd.conf
     depends_on:
       - bitcoind
     ports:
       - "10009:10009"
       - "9735:9735"
       - "8080:8080"   # REST API port
-    command:
-      [
-        "--bitcoin.active",
-        "--bitcoin.regtest",
-        "--bitcoin.node=bitcoind",
-        "--bitcoind.rpchost=bitcoind",
-        "--bitcoind.rpcuser=bitcoin",
-        "--bitcoind.rpcpass=bitcoin",
-        "--bitcoind.zmqpubrawblock=tcp://bitcoind:28332",
-        "--bitcoind.zmqpubrawtx=tcp://bitcoind:28333",
-        "--restlisten=0.0.0.0:8080",
-        "--rpclisten=0.0.0.0:10009",
-        "--listen=0.0.0.0:9735",
-        "--tlsextraip=0.0.0.0",
-        "--accept-keysend",
-        "--noseedbackup"
-      ]
+    
 
   samoa:
     image: lightninglabs/lnd:v0.17.0-beta
@@ -61,29 +46,14 @@ services:
     volumes:
       - samoa_data:/root/.lnd
       - ./entrypoint.sh:/entrypoint.sh
+      - ./lnd-config/samoa-lnd.conf:/root/.lnd/lnd.conf
     depends_on:
       - bitcoind
     ports:
       - "11009:11009"  # Changed to unique internal port
       - "10735:10735"  # Changed to unique internal port
       - "8081:8081"    # Changed to unique internal port
-    command:
-      [
-        "--bitcoin.active",
-        "--bitcoin.regtest",
-        "--bitcoin.node=bitcoind",
-        "--bitcoind.rpchost=bitcoind",
-        "--bitcoind.rpcuser=bitcoin",
-        "--bitcoind.rpcpass=bitcoin",
-        "--bitcoind.zmqpubrawblock=tcp://bitcoind:28332",
-        "--bitcoind.zmqpubrawtx=tcp://bitcoind:28333",
-        "--restlisten=0.0.0.0:8081",
-        "--rpclisten=0.0.0.0:11009",
-        "--listen=0.0.0.0:10735",
-        "--tlsextraip=0.0.0.0",
-        "--accept-keysend",
-        "--noseedbackup"
-      ]
+   
 
 volumes:
   bitcoind_data:
